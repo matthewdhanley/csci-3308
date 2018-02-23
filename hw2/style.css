@@ -3,9 +3,8 @@ h1 {
     margin-top: 20px;
 }
 
-}
 .row {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 [class*="col-"] {
