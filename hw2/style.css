@@ -1,29 +1,40 @@
-h4 {
-    margin-top: 25px;
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
 }
 .row {
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
-.row .row {
-    margin-top: 10px;
-    margin-bottom: 0;
-}
+
 [class*="col-"] {
     padding-top: 15px;
     padding-bottom: 15px;
-    background-color: #eee;
-    background-color: rgba(86,61,124,.15);
-    border: 1px solid #ddd;
-    border: 1px solid rgba(86,61,124,.2);
+    color: white;
+    text-align: center;
 }
 
-hr {
-    margin-top: 40px;
-    margin-bottom: 40px;
+.one {
+    background-color: #f50200;
 }
 
-.row{
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
+.two {
+    background-color: #fa9600;
+}
+
+.three {
+    background-color: black;
+}
+
+.four {
+    background-color: #007a00;
+}
+
+.five {
+    background-color: #000afd;
+}
+
+.six {
+    background-color: #740074;
 }
