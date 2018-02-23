@@ -2,5 +2,9 @@ Q: What have we learn so far from this class?
 A: We have learned useful things such as RegEx, Agile and Waterfall methodologies, Git and
 HTML/CSS!
 
+Q: What are the things needed for Bootstrap to be loaded?
+A: The <link> tag is needed to the bootstrap CSS. It also needs the bootstrap JS
+
 Q: How does Bootstrap’s Grid system work?
-A: The grid system with bootstrap is adaptive! It is nice because it allows any browser.
+A: The grid system with bootstrap is adaptive! It is nice because it allows any browser to load the content in a way that looks good. If the page gets smaller, the grid scales with it.
+
