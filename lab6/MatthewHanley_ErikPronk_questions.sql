@@ -7,6 +7,17 @@ SELECT sname FROM store order by sname;
 -- 2
 SELECT sname FROM store order by sname limit 3;
 
+-- 3
+SELECT sname FROM (SELECT * FROM store 
+	ORDER BY id DESC LIMIT 3) as sAlias
+	ORDER BY sname;
+
+-- 4
+SELECT sname FROM store WHERE price>1;
+
+-- 5
+SELECT sname, (qty*price) AS ext_price FROM store;
+
 -- 6
 select sum(price) as total from store;
 
