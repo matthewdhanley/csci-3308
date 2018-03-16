@@ -108,4 +108,13 @@ Laughing Lumberjack Lager	Bigfoot Breweries	USA	52
 Outback Lager	Pavlova Ltd.	Australia	15
 Rhönbräu Klosterbier	Plutzer Lebensmittelgroßmärkte AG	Germany	125
 
-
+13.-------------------------------------------------------------
+CREATE TABLE `northwinds`.`Top_Items` (
+  `ItemID` INT NOT NULL,
+  `ItemCode` INT NOT NULL,
+  `ItemName` VARCHAR(40) NOT NULL,
+  `InventoryDate` DATE NOT NULL,
+  `SupplierID` INT NOT NULL,
+  `ItemQuantity` INT NOT NULL,
+  `ItemPrice` DECIMAL(9,2) NOT NULL,
+  PRIMARY KEY (`ItemID`));
