@@ -118,3 +118,14 @@ CREATE TABLE `northwinds`.`Top_Items` (
   `ItemQuantity` INT NOT NULL,
   `ItemPrice` DECIMAL(9,2) NOT NULL,
   PRIMARY KEY (`ItemID`));
+
+14.-------------------------------------------------------------
+use northwinds;
+insert into Top_Items 
+ (ItemID, ItemCode, ItemName, 
+ InventoryDate, ItemQuantity, 
+ ItemPrice, SupplierID)
+select ProductID, CategoryID, ProductName, curdate(), UnitsInStock, 
+ UnitPrice, SupplierID
+from nwProducts
+where nwProducts.UnitsInStock*nwProducts.UnitPrice > 2500;
