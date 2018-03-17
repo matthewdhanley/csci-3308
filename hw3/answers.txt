@@ -1,0 +1,307 @@
+-- 1.
+SELECT 
+    LastName, FirstName
+FROM
+    nwEmployees
+WHERE
+    (Country <> 'USA')
+        AND (HireDate < '2013-03-11 00:00:00')
+ORDER BY LastName , FirstName;
+
+Dodsworth	Anne
+King	Robert
+Suyama	Michael
+
+
+
+-- 2.
+SELECT 
+    ProductID, ProductName, UnitsInStock, UnitPrice
+FROM
+    nwProducts
+WHERE
+    (UnitsInStock > 0)
+        AND (UnitsInStock < ReorderLevel);
+
+2	Chang	17	19.00
+3	Aniseed Syrup	13	10.00
+11	Queso Cabrales	22	21.00
+21	Sir Rodney's Scones	3	10.00
+30	Nord-Ost Matjeshering	10	25.89
+32	Mascarpone Fabioli	9	32.00
+37	Gravad lax	11	26.00
+43	Ipoh Coffee	17	46.00
+45	Rogede sild	5	9.50
+48	Chocolade	15	12.75
+49	Maxilaku	10	20.00
+56	Gnocchi di nonna Alice	21	38.00
+64	Wimmers gute Semmelknödel	22	33.25
+66	Louisiana Hot Spiced Okra	4	17.00
+68	Scottish Longbreads	6	12.50
+70	Outback Lager	15	15.00
+74	Longlife Tofu	4	10.00
+
+
+
+-- 3.
+SELECT 
+    ProductName, UnitPrice
+FROM
+    nwProducts
+WHERE
+    UnitPrice >= (SELECT 
+            MAX(a.UnitPrice)
+        FROM
+            (SELECT 
+                UnitPrice
+            FROM
+                nwProducts) a);
+
+
+'Côte de Blaye', '263.50'
+
+
+-- 4.
+SELECT 
+    ProductID,
+    ProductName,
+    UnitsInStock * UnitPrice AS 'Total Inventory Value'
+FROM
+    nwProducts
+WHERE
+    UnitsInStock * UnitPrice > 2000
+ORDER BY UnitsInStock * UnitPrice DESC;
+
+
+38	Côte de Blaye	4479.50
+59	Raclette Courdavault	4345.00
+12	Queso Manchego La Pastora	3268.00
+20	Sir Rodney's Marmalade	3240.00
+61	Sirop d'érable	3220.50
+6	Grandma's Boysenberry Spread	3000.00
+9	Mishi Kobe Niku	2813.00
+55	Pâté chinois	2760.00
+18	Carnarvon Tigers	2625.00
+40	Boston Crab Meat	2263.20
+22	Gustaf's Knäckebröd	2184.00
+27	Schoggi Schokolade	2151.10
+36	Inlagd Sill	2128.00
+
+
+-- 5.
+SELECT 
+    ShipCountry, COUNT(*) AS OrderCount
+FROM
+    nwOrders
+WHERE
+    (ShipCountry <> 'USA')
+        AND (ShippedDate > '2013-09-01 00:00:00')
+        AND (ShippedDate < '2013-10-01 00:00:00')
+GROUP BY ShipCountry
+ORDER BY ShipCountry;
+
+Brazil	4
+France	3
+Germany	1
+Ireland	1
+Italy	2
+Mexico	3
+Spain	2
+Sweden	1
+Venezuela	1
+
+
+
+-- 6.
+SELECT 
+    nwCustomers.CustomerID, nwCustomers.CompanyName
+FROM
+    nwCustomers
+        JOIN
+    nwOrders ON nwCustomers.CustomerID = nwOrders.CustomerID
+GROUP BY nwOrders.CustomerID
+HAVING COUNT(*) > 20;
+
+ERNSH	Ernst Handel
+QUICK	QUICK-Stop
+SAVEA	Save-a-lot Markets
+
+
+
+-- 7.
+SELECT 
+    SupplierID, SUM(UnitPrice * UnitsInStock) AS InventoryValue
+FROM
+    nwProducts
+GROUP BY SupplierID
+HAVING COUNT(*) > 3;
+
+2	2833.80
+7	4409.65
+8	3575.00
+12	3301.85
+
+
+
+-- 8.
+SELECT 
+    nwSuppliers.CompanyName,
+    nwProducts.ProductName,
+    nwProducts.UnitPrice
+FROM
+    nwSuppliers
+        JOIN
+    nwProducts ON nwSuppliers.SupplierID = nwProducts.SupplierID
+WHERE
+    Country = 'USA'
+ORDER BY nwProducts.UnitPrice DESC;
+
+Grandma Kelly's Homestead	Northwoods Cranberry Sauce	40.00
+Grandma Kelly's Homestead	Uncle Bob's Organic Dried Pears	30.00
+Grandma Kelly's Homestead	Grandma's Boysenberry Spread	25.00
+New Orleans Cajun Delights	Chef Anton's Cajun Seasoning	22.00
+New Orleans Cajun Delights	Chef Anton's Gumbo Mix	21.35
+New Orleans Cajun Delights	Louisiana Fiery Hot Pepper Sauce	21.05
+New England Seafood Cannery	Boston Crab Meat	18.40
+Bigfoot Breweries	Steeleye Stout	18.00
+New Orleans Cajun Delights	Louisiana Hot Spiced Okra	17.00
+Bigfoot Breweries	Sasquatch Ale	14.00
+Bigfoot Breweries	Laughing Lumberjack Lager	14.00
+New England Seafood Cannery	Jack's New England Clam Chowder	9.65
+
+
+
+-- 9.
+SELECT 
+    E.LastName,
+    E.FirstName,
+    E.Title,
+    E.Extension,
+    COUNT(O.EmployeeID) OrderCount
+FROM
+    nwEmployees E
+        JOIN
+    nwOrders O ON O.EmployeeID = E.EmployeeID
+GROUP BY O.EmployeeID
+HAVING OrderCount > 100
+ORDER BY E.LastName , E.FirstName , E.Title , E.Extension;
+
+Callahan	Laura	Inside Sales Coordinator	2344	104
+Davolio	Nancy	Sales Representative	5467	123
+Leverling	Janet	Sales Representative	3355	127
+Peacock	Margaret	Sales Representative	5176	156
+
+
+
+-- 10.
+SELECT 
+    nwCustomers.CustomerID, nwCustomers.CompanyName
+FROM
+    nwCustomers
+        LEFT JOIN
+    nwOrders ON nwCustomers.CustomerID = nwOrders.CustomerID
+WHERE
+    nwOrders.CustomerID IS NULL;
+
+FISSA	FISSA Fabrica Inter. Salchichas S.A.
+PARIS	Paris specialites
+
+
+
+-- 11.
+SELECT 
+    S.CompanyName,
+    S.ContactName,
+    C.CategoryName,
+    C.Description,
+    P.ProductName,
+    P.UnitsOnOrder
+FROM
+    nwProducts P
+        JOIN
+    nwSuppliers S ON S.SupplierID = P.SupplierID
+        JOIN
+    nwCategories C ON C.CategoryID = P.CategoryID
+WHERE
+    P.UnitsInStock = 0;
+
+New Orleans Cajun Delights	Shelley Burke	Condiments	Sweet and savory sauces, relishes, spreads, and seasonings	Chef Anton's Gumbo Mix	0
+Pavlova Ltd.	Ian Devling	Meat/Poultry	Prepared meats	Alice Mutton	0
+Plutzer Lebensmittelgroßmärkte AG	Martin Bein	Meat/Poultry	Prepared meats	Thüringer Rostbratwurst	0
+Formaggi Fortini s.r.l.	Elio Rossi	Dairy Products	Cheeses	Gorgonzola Telino	70
+G'day Mate	Wendy Mackenzie	Meat/Poultry	Prepared meats	Perth Pasties	0
+
+
+
+-- 12.
+SELECT 
+    nwProducts.ProductName,
+    nwSuppliers.CompanyName,
+    nwSuppliers.Country,
+    nwProducts.UnitsInStock
+FROM
+    nwProducts
+        JOIN
+    nwSuppliers ON nwProducts.SupplierID = nwSuppliers.SupplierID
+WHERE
+    QuantityPerUnit LIKE '%bottle%';
+
+'Chang', 'Exotic Liquids', 'UK', '17'
+'Aniseed Syrup', 'Exotic Liquids', 'UK', '13'
+'Genen Shouyu', 'Mayumi\'s', 'Japan', '39'
+'Sasquatch Ale', 'Bigfoot Breweries', 'USA', '111'
+'Steeleye Stout', 'Bigfoot Breweries', 'USA', '20'
+'Côte de Blaye', 'Aux joyeux ecclésiastiques', 'France', '17'
+'Chartreuse verte', 'Aux joyeux ecclésiastiques', 'France', '69'
+'Sirop d\'érable', 'Forêts dérables', 'Canada', '113'
+'Louisiana Fiery Hot Pepper Sauce', 'New Orleans Cajun Delights', 'USA', '76'
+'Laughing Lumberjack Lager', 'Bigfoot Breweries', 'USA', '52'
+'Outback Lager', 'Pavlova Ltd.', 'Australia', '15'
+'Rhönbräu Klosterbier', 'Plutzer Lebensmittelgroßmärkte AG', 'Germany', '125'
+
+
+
+-- 13.
+CREATE TABLE `northwinds`.`Top_Items` (
+    `ItemID` INT NOT NULL,
+    `ItemCode` INT NOT NULL,
+    `ItemName` VARCHAR(40) NOT NULL,
+    `InventoryDate` DATE NOT NULL,
+    `SupplierID` INT NOT NULL,
+    `ItemQuantity` INT NOT NULL,
+    `ItemPrice` DECIMAL(9 , 2 ) NOT NULL,
+    PRIMARY KEY (`ItemID`)
+);
+
+
+
+-- 14.
+insert into 
+Top_Items(ItemID, ItemCode, ItemName,InventoryDate, 
+ItemQuantity,ItemPrice, SupplierID)
+select ProductID, CategoryID, ProductName, curdate(), UnitsInStock,
+UnitPrice, SupplierID
+from 
+nwProducts
+where 
+nwProducts.UnitsInStock*nwProducts.UnitPrice > 2500;
+
+
+-- 15.
+DELETE Top_Items . * FROM Top_Items
+        JOIN
+    nwSuppliers ON Top_Items.SupplierID = nwSuppliers.SupplierID 
+WHERE
+    nwSuppliers.country LIKE 'canada';
+
+
+-- 16.
+alter table Top_Items
+add InventoryValue decimal(9,2);
+
+
+-- 17.
+UPDATE Top_Items TI 
+SET 
+    TI.InventoryValue = (TI.ItemPrice * TI.ItemQuantity);
+
