@@ -37,3 +37,21 @@ h1 {
 .six {
     background-color: #740074;
 }
+
+#pwrd {
+    margin-left: 5%;
+    margin-right: 70%;
+}
+
+#email {
+    margin-left: 5%;
+    margin-right: 70%;
+}
+
+#question {
+    margin-left: 5%;
+}
+
+button {
+    margin-left: 5%;
+}
