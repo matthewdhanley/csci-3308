@@ -102,46 +102,46 @@ app.post('/add', function(req, res, next){
     }
 })
 
-// PART 3 =======================================================================
-// SHOW EDIT ITEM FORM - Display form for update
-app.get('/edit/(:id)', function(req, res, next){
-    /*
-    TODO : Update operation is similar to add operation.
-    Fill out the appropriate code below
-    Hints :
-    * req.params.id will give you the id which is passed in
-    /edit/(:id).Use
-    that in SQL update query and any other place where you need
-    id
-    * You are only displaying an item here for the customer.
-    * The actual update happens in the post action below this
-    module
-    */
-    req.getConnection(function(error, conn) {
-        conn.query('UPDATE store SET ? where id like ?', function(err, rows, fields) {
-// if item not found
-            if (rows.length <= 0) {
-                req.flash('error', 'Item not found with id = ' + req.params.id)
-                res.redirect('/store')
-            }
-            else { // if item found
-// render to views/store/edit.ejs template file
-                res.render(/*path to template*/, {
-                    title: 'Edit Item',
-                    /* Place the code for sending values */
-                    /* Hint : rows[0] gets the entire tuple
-                    from database.
-                    Get the right values from rows[0]
-                    */
-                    id: req.params.id,
-                    qty: req.params.qty,
-                    price : req.params.price,
-                    sname : req.params.sname
-                })
-            }
-        })
-    })
-})
+// // PART 3 =======================================================================
+// // SHOW EDIT ITEM FORM - Display form for update
+// app.get('/edit/(:id)', function(req, res, next){
+//     /*
+//     TODO : Update operation is similar to add operation.
+//     Fill out the appropriate code below
+//     Hints :
+//     * req.params.id will give you the id which is passed in
+//     /edit/(:id).Use
+//     that in SQL update query and any other place where you need
+//     id
+//     * You are only displaying an item here for the customer.
+//     * The actual update happens in the post action below this
+//     module
+//     */
+//     req.getConnection(function(error, conn) {
+//         conn.query('UPDATE store SET ? where id like ?', function(err, rows, fields) {
+// // if item not found
+//             if (rows.length <= 0) {
+//                 req.flash('error', 'Item not found with id = ' + req.params.id)
+//                 res.redirect('/store')
+//             }
+//             else { // if item found
+// // render to views/store/edit.ejs template file
+//                 res.render(/*path to template*/, {
+//                     title: 'Edit Item',
+//                     /* Place the code for sending values */
+//                     /* Hint : rows[0] gets the entire tuple
+//                     from database.
+//                     Get the right values from rows[0]
+//                     */
+//                     id: req.params.id,
+//                     qty: req.params.qty,
+//                     price : req.params.price,
+//                     sname : req.params.sname
+//                 })
+//             }
+//         })
+//     })
+// })
 
 
 
