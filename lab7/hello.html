@@ -1,0 +1,40 @@
+<!--Lab7
+    Matthew Hanley
+    Erik Pronk-->
+<html>
+<head>
+    <title>Hello</title>
+    <script src="http://code.jquery.com/jquery-2.2.0.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var text = '{"players": [ \
+                {"name": "DeMarcus Ware", "jersey": 94}, \
+                {"name": "Peyton Manning", "jersey": 18}, \
+                {"name": "Von Miller", "jersey": 58} \
+                ]}';
+            var team = JSON.parse(text);
+            console.log(team.players[0].name);
+            console.log(team.players[1].name);
+            console.log(team.players[2].name);
+        });
+        $(document).ready(function() {
+            var url =
+                'https://api.forecast.io/forecast/c35f32834426b304f9b849df3e824d16/40.014984,-105.270546'
+            $.ajax({url:url, dataType:"jsonp"}).then(function(data) {
+                console.log(data);
+                $('#temperature').text("Temperature: " + data.currently.temperature);
+                $('#summary').text("\nSummary: " + data.currently.summary);
+                $('#humidity').text("\nHumidity: " + data.currently.humidity);
+            })
+        })
+    </script>
+
+</head>
+<body>
+    <h1>Weather</h1>
+    <p id="temperature"></p>
+    <p id="summary"></p>
+    <p id="humidity"></p>
+</body>
+</html>

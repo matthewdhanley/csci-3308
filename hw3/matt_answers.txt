@@ -1,0 +1,141 @@
+2.-----------------------------------------------------------
+select ProductID, ProductName, UnitsInStock, UnitPrice from nwProducts 
+where (UnitsInStock > 0) and (UnitsInStock < ReorderLevel);
+
+2       Chang 	17	19.00
+3	Aniseed Syrup	13	10.00
+11	Queso Cabrales	22	21.00
+21	Sir Rodney's Scones	3	10.00
+30	Nord-Ost Matjeshering	10	25.89
+32	Mascarpone Fabioli	9	32.00
+37	Gravad lax	11	26.00
+43	Ipoh Coffee	17	46.00
+45	Rogede sild	5	9.50
+48	Chocolade	15	12.75
+49	Maxilaku	10	20.00
+56	Gnocchi di nonna Alice	21	38.00
+64	Wimmers gute Semmelknödel	22	33.25
+66	Louisiana Hot Spiced Okra	4	17.00
+68	Scottish Longbreads	6	12.50
+70	Outback Lager	15	15.00
+74	Longlife Tofu	4	10.00
+
+4.------------------------------------------------------------
+use northwinds;
+select ProductID, ProductName, UnitsInStock*UnitPrice as "Total Inventory Value" 
+from nwProducts 
+where UnitsInStock * UnitPrice > 2000
+order by UnitsInStock * UnitPrice desc;
+
+38	Côte de Blaye	4479.50
+59	Raclette Courdavault	4345.00
+12	Queso Manchego La Pastora	3268.00
+20	Sir Rodney's Marmalade	3240.00
+61	Sirop d'érable	3220.50
+6	Grandma's Boysenberry Spread	3000.00
+9	Mishi Kobe Niku	2813.00
+55	Pâté chinois	2760.00
+18	Carnarvon Tigers	2625.00
+40	Boston Crab Meat	2263.20
+22	Gustaf's Knäckebröd	2184.00
+27	Schoggi Schokolade	2151.10
+36	Inlagd Sill	2128.00
+
+6.-------------------------------------------------------------
+use northwinds;
+select nwCustomers.CustomerID, nwCustomers.CompanyName
+from nwCustomers
+join nwOrders on nwCustomers.CustomerID = nwOrders.CustomerID
+group by nwOrders.CustomerID
+having count(*) > 20;
+
+ERNSH	Ernst Handel
+QUICK	QUICK-Stop
+SAVEA	Save-a-lot Markets
+
+8.-------------------------------------------------------------
+use northwinds;
+select nwSuppliers.CompanyName, nwProducts.ProductName, nwProducts.UnitPrice from nwSuppliers
+join nwProducts
+on nwSuppliers.SupplierID = nwProducts.SupplierID
+where Country = "USA"
+order by nwProducts.UnitPrice desc;
+
+
+Grandma Kelly's Homestead	Northwoods Cranberry Sauce	40.00
+Grandma Kelly's Homestead	Uncle Bob's Organic Dried Pears	30.00
+Grandma Kelly's Homestead	Grandma's Boysenberry Spread	25.00
+New Orleans Cajun Delights	Chef Anton's Cajun Seasoning	22.00
+New Orleans Cajun Delights	Chef Anton's Gumbo Mix	21.35
+New Orleans Cajun Delights	Louisiana Fiery Hot Pepper Sauce	21.05
+New England Seafood Cannery	Boston Crab Meat	18.40
+Bigfoot Breweries	Steeleye Stout	18.00
+New Orleans Cajun Delights	Louisiana Hot Spiced Okra	17.00
+Bigfoot Breweries	Sasquatch Ale	14.00
+Bigfoot Breweries	Laughing Lumberjack Lager	14.00
+New England Seafood Cannery	Jack's New England Clam Chowder	9.65
+
+
+10.------------------------------------------------------------
+use northwinds;
+select nwCustomers.CustomerID, nwCustomers.CompanyName
+from nwCustomers
+left join nwOrders on nwCustomers.CustomerID = nwOrders.CustomerID
+where nwOrders.CustomerID is null;
+
+FISSA	FISSA Fabrica Inter. Salchichas S.A.
+PARIS	Paris specialites
+
+
+12.-------------------------------------------------------------
+use northwinds;
+select nwProducts.ProductName, nwSuppliers.CompanyName, nwSuppliers.Country, nwProducts.UnitsInStock
+from nwProducts
+join nwSuppliers
+on nwProducts.SupplierID = nwSuppliers.SupplierID
+where QuantityPerUnit like "%bottle%";
+
+Chang	Exotic Liquids	UK	17
+Aniseed Syrup	Exotic Liquids	UK	13
+Genen Shouyu	Mayumi's	Japan	39
+Sasquatch Ale	Bigfoot Breweries	USA	111
+Steeleye Stout	Bigfoot Breweries	USA	20
+Côte de Blaye	Aux joyeux ecclésiastiques	France	17
+Chartreuse verte	Aux joyeux ecclésiastiques	France	69
+Sirop d'érable	Forêts dérables	Canada	113
+Louisiana Fiery Hot Pepper Sauce	New Orleans Cajun Delights	USA	76
+Laughing Lumberjack Lager	Bigfoot Breweries	USA	52
+Outback Lager	Pavlova Ltd.	Australia	15
+Rhönbräu Klosterbier	Plutzer Lebensmittelgroßmärkte AG	Germany	125
+
+13.-------------------------------------------------------------
+CREATE TABLE `northwinds`.`Top_Items` (
+  `ItemID` INT NOT NULL,
+  `ItemCode` INT NOT NULL,
+  `ItemName` VARCHAR(40) NOT NULL,
+  `InventoryDate` DATE NOT NULL,
+  `SupplierID` INT NOT NULL,
+  `ItemQuantity` INT NOT NULL,
+  `ItemPrice` DECIMAL(9,2) NOT NULL,
+  PRIMARY KEY (`ItemID`));
+
+14.-------------------------------------------------------------
+use northwinds;
+insert into Top_Items 
+ (ItemID, ItemCode, ItemName, 
+ InventoryDate, ItemQuantity, 
+ ItemPrice, SupplierID)
+select ProductID, CategoryID, ProductName, curdate(), UnitsInStock, 
+ UnitPrice, SupplierID
+from nwProducts
+where nwProducts.UnitsInStock*nwProducts.UnitPrice > 2500;
+
+15.-------------------------------------------------------------
+delete Top_Items.* from Top_Items 
+join nwSuppliers on Top_Items.SupplierID=nwSuppliers.SupplierID
+where nwSuppliers.country like "canada";
+
+16.-------------------------------------------------------------
+alter table Top_Items
+add InventoryValue decimal(9,2);
+

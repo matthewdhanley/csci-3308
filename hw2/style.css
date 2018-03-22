@@ -1,3 +1,5 @@
+/* Matthew Hanley and Erik Pronk */
+
 h1 {
     text-align: center;
     margin-top: 20px;
@@ -37,6 +39,7 @@ h1 {
 .six {
     background-color: #740074;
 }
+<<<<<<< HEAD
 
 #pwrd {
     margin-left: 5%;
@@ -54,4 +57,15 @@ h1 {
 
 button {
     margin-left: 5%;
+=======
+.checkbox-inline {
+    margin-left: 3px;
+}
+.radio {
+    
+}
+.form-group {
+    padding-left: 100px;
+    padding-right:100px
+>>>>>>> 88e0ed1b34883ea343be84ecfe2fb14df11477b8
 }

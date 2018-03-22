@@ -1,3 +1,5 @@
+Matthew Hanley and Erik Pronk
+
 Q: What have we learn so far from this class?
 A: We have learned useful things such as RegEx, Agile and Waterfall methodologies, Git and
 HTML/CSS!
