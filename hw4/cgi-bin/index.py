@@ -2,11 +2,15 @@
 
 # Erik Pronk and Matthew Hanley 
 
+import urllib2
+import json
+
 print "Content-Type: text/html"
 print
 
 contents = """<html>
 			      <head>
+			      <script src="http://code.jquery.com/jquery-2.2.1.js"></script>
 			          <title>
 					      HW #4 Erik Pronk and Matthew Hanley
 					  </title>
@@ -87,3 +91,13 @@ contents = """<html>
 			  </html>"""
 
 print contents
+
+jsonData = urllib2.urlopen('https://api.forecast.io/forecast/<Insert API key>/40.014984,-105.270546')
+data = json.load(jsonData)   
+print jsonData
+print """
+<script>
+$(document).ready(function()){"""
+print """
+});
+</script>"""
