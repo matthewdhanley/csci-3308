@@ -145,7 +145,7 @@ contents = """<html>
 
 print contents
 
-jsonData = urllib2.urlopen('https://api.forecast.io/forecast/63a232e03b63d68f2ee7fec62b36cec4/40.014984,-105.270546')
+jsonData = urllib2.urlopen('https://api.forecast.io/forecast/<API KEY HERE>/40.014984,-105.270546')
 data = json.load(jsonData)   
 print jsonData
 print """
