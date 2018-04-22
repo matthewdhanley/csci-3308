@@ -7,7 +7,7 @@
 # Univerity of Colorado
 # Text Processing Module
 
-# NAMES: 
+# NAMES:
 #   Erik Pronk
 #   Matthew Hanley
 
