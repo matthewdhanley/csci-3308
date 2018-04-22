@@ -227,10 +227,9 @@ for key in states_coords:
                 color = "red"
         else:
                 color = "gray"
+
         print "<!--"+str(temperature)+"-->"
         print "$('#"+key["state"]+"').css('fill','"+color+"')"
-
-# print "$('#%s').css('fill','red')" % key['state']
 
 print """
 });
